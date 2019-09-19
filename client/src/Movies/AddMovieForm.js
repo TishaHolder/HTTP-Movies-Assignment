@@ -1,46 +1,60 @@
-import React, { Component } from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 //import { setState } from "expect/build/jestMatchersObject";
 
-class AddMovieForm extends Component {
+function AddMovieForm(props){
 
-    constructor(props){
-        super(props);
+    const [newMovie, setNewMovie] = useState( {title: "", director: "", metascore: "", stars: ["val", "val", "val"] } );
 
-        this.state = {
-            newMovie: {
-              title: '',
-              director: '',
-              metascore: '',
-              stars: ["", "", ""]
-            }
-          };      
-    }
+    const changeHandler = (event) => {
 
-    
-
-    changeHandler = (event) => {
-
-        this.setState({
-
-            newMovie: {
-                ...this.state.newMovie,
-                [event.target.name]: event.target.value
-            }
+            setNewMovie({
+            ...newMovie,
+            [event.target.name]: event.target.value
 
         });
 
     }
 
-   
+    /*const changeArrayHandler = (event) => {
+
+        setNewMovie({
+        ...newMovie,
+        stars: newMovie.stars.map( star => event.target.value)
+
+    });*/
+
+
+
+    const changeArrayHandler = (indexIn, event) => {
+
+        setNewMovie({
+            ...newMovie,
+            stars: newMovie.stars.map ( (star, index) => 
+            {
+                if(index === indexIn){
+                    return event.target.value
+                } else {
+
+                    return star;
+
+                }
+                
+            })
+
+        });
+
+    };
     
 
-    addMovie = (movie) => {
+    const submitHandler = (event) => {
+
+        event.preventDefault();
         axios
-        .post("http://localhost:5000/api/movies", movie)
+        .post("http://localhost:5000/api/movies/", newMovie)
         .then(res => {
-            this.setState({movies: res.data});
-            
+            console.log(res.data);
+            props.history.push("/");
 
         })
         .catch(err => {
@@ -49,79 +63,65 @@ class AddMovieForm extends Component {
 
     }
 
-        
-    
+   
+    return (
 
-    submitHandler = (event) => {
+        <form onSubmit = {submitHandler}>
 
-        event.preventDefault();
-        this.addMovie(this.state.newMovie);
-        this.props.params.history.push("/");
+            <input type = "text"
+                   name = "title"
+                   value = {newMovie.title}
+                   onChange = {changeHandler} 
+                   placeholder = "title" />
 
+            <input type = "text"
+                   name = "director"
+                   value = {newMovie.director}
+                   onChange = {changeHandler} 
+                   placeholder = "director" />
 
-    }
+            <input type = "number"
+                   name = "metascore"
+                   value = {newMovie.metascore}
+                   onChange = {changeHandler} 
+                   placeholder = "metascore" />  
 
-    
+            <h2> Actors </h2>
 
-    render(){
+            { newMovie.stars.map( (star, index) => {
+                return <input  type = "text"                               
+                value = {star}
+                onChange = {(event)=> changeArrayHandler(index, event)} 
+                placeholder = "actor" /> 
+            }
+            
+            )}
 
-        return (
+            {/*<input type = "text"
+                   name = "stars[0]"
+                   value = {newMovie.stars[0]}
+                   onChange = {changeHandler} 
+                   placeholder = "actor" />
 
-            <form onSubmit = {this.submitHandler}>
+            <input type = "text"
+                   name = "stars[1]"
+                   value = {newMovie.stars[1]}
+                   onChange = {changeHandler} 
+                   placeholder = "actor" />
 
-                <input type = "text"
-                    name = "title"
-                    value = {this.state.newMovie.title}
-                    onChange = {this.changeHandler} 
-                    placeholder = "title" />
+            <input type = "text"
+                   name = "stars[2]"
+                   value = {newMovie.stars[2]}
+                   onChange = {changeHandler} 
+                   placeholder = "actor" /> 
 
-                <input type = "text"
-                    name = "director"
-                    value = {this.state.newMovie.director}
-                    onChange = {this.changeHandler} 
-                    placeholder = "director" />
+            <button> Add </button>  */}        
+                   
+        </form>
 
-                <input type = "number"
-                    name = "metascore"
-                    value = {this.state.newMovie.metascore}
-                    onChange = {this.changeHandler} 
-                    placeholder = "metascore" />  
-
-                <h2> Actors </h2>
-
-                {/*{this.state.newMovie.stars.map( (star, index) => { <input type = "text"
-                                                                 name = {this.state.newMovie.stars[index]}
-                                                                 value = {star}
-                                                                 onChange = {this.changeHandler} 
-                                                                placeholder = "actor" /> } )}*/}
-                input type = "text"
-                    name = "stars[0]"
-                    value = {this.state.newMovie.stars[0]}
-                    onChange = {this.changeHandler} 
-                    placeholder = "actor" />
-
-                <input type = "text"
-                    name = "stars[1]"
-                    value = {this.state.newMovie.stars[1]}
-                    onChange = {this.changeHandler} 
-                    placeholder = "actor" />
-
-                <input type = "text"
-                    name = "stars[2]"
-                    value = {this.state.newMovie.stars[2]}
-                    onChange = {this.changeHandler} 
-                    placeholder = "actor" /> */}
-
-                <button> Update </button>          
-                    
-            </form>
-
-
-        );
-
-    }
-
+    );
 
 }
 
 export default AddMovieForm;
+

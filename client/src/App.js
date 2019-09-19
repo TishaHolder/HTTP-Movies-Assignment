@@ -38,7 +38,8 @@ const App = () => {
       <SavedList list={savedList} />
 
       <Route exact path="/" component={MovieList} />
-
+      
+      {/*:id means id will be passed down in props as props.match.params.id */}
       <Route
         path="/movies/:id"
         render={props => {

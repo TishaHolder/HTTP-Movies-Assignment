@@ -1,10 +1,23 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import axios from "axios";
 //import { setState } from "expect/build/jestMatchersObject";
 
 function UpdateMovieForm(props){
 
-    const [updatedMovie, setUpdatedMovie] = ([{title: "", director: "", metascore: "", stars: [] }]);
+    const [updatedMovie, setUpdatedMovie] = useState( {title: "", director: "", metascore: "", stars: [] } );
+
+    const fetchMovie = id => {
+        axios
+          .get(`http://localhost:5000/api/movies/${id}`)
+          .then(res => setUpdatedMovie(res.data))
+          .catch(err => console.log(err.response));
+      };
+
+      useEffect( () => {
+
+          fetchMovie(props.match.params.id);
+
+      }, [props.match.params.id]);
 
     const changeHandler = (event) => {
 
@@ -15,6 +28,26 @@ function UpdateMovieForm(props){
         });
 
     }
+
+    const changeArrayHandler = (indexIn, event) => {
+
+        setUpdatedMovie({
+            ...updatedMovie,
+            stars: updatedMovie.stars.map ( (star, index) => 
+            {
+                if(index === indexIn){
+                    return event.target.value
+                } else {
+
+                    return star;
+
+                }
+                
+            })
+
+        });
+
+    };
     
 
     const submitHandler = (event) => {
@@ -28,7 +61,7 @@ function UpdateMovieForm(props){
         axios
         .put(`http://localhost:5000/api/movies/${id}`, updatedMovie)
         .then(res => {
-            setUpdatedMovie(res.data);
+            console.log(res);
             props.history.push("/");
 
         })
@@ -62,7 +95,14 @@ function UpdateMovieForm(props){
 
             <h2> Actors </h2>
 
-            <input type = "text"
+            {updatedMovie.stars.map( (star, index) => {
+                 return <input  type = "text"                               
+                                value = {star}
+                                onChange = {(event)=> changeArrayHandler(index, event)} 
+                                placeholder = "actor" /> }
+                )}
+
+            {/*<input type = "text"
                    name = "stars"
                    value = {updatedMovie.stars[0]}
                    onChange = {changeHandler} 
@@ -78,7 +118,7 @@ function UpdateMovieForm(props){
                    name = "stars"
                    value = {updatedMovie.stars[2]}
                    onChange = {changeHandler} 
-                   placeholder = "title" />
+                   placeholder = "title" /> */}
 
             <button> Update </button>          
                    
