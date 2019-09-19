@@ -114,3 +114,23 @@ body {
   margin-right: 10px;
 
 }
+
+.add-form {
+  width: 30%;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 auto;
+
+}
+
+input {
+  height: 30px;
+  
+}
+
+button {
+  height: 30px;
+  
+}

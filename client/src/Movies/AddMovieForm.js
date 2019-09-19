@@ -5,7 +5,7 @@ import axios from "axios";
 function AddMovieForm(props){
 
     
-    const [newMovie, setNewMovie] = useState( {title: "", director: "", metascore: "", stars: [ ] } );
+    const [newMovie, setNewMovie] = useState( {title: "", director: "", metascore: "", stars: ["", "", ""] } );
 
     const changeHandler = (event) => {
 
@@ -17,16 +17,7 @@ function AddMovieForm(props){
 
     }
 
-    /*const changeArrayHandler = (event) => {
-
-        setNewMovie({
-        ...newMovie,
-        stars: newMovie.stars.map( star => event.target.value)
-
-    });*/
-
-
-
+    
     const changeArrayHandler = (indexIn, event) => {
 
         setNewMovie({
@@ -46,13 +37,14 @@ function AddMovieForm(props){
         });
 
     };
+
     const submitHandler = (event) => {
 
         event.preventDefault();
         axios
         .post("http://localhost:5000/api/movies/", newMovie)
         .then(res => {
-            console.log(res.data);
+            console.log("new post", res.data);
             props.history.push("/");
 
         })
@@ -65,7 +57,7 @@ function AddMovieForm(props){
    
     return (
 
-        <form onSubmit = {submitHandler}>
+        <form className = "add-form" onSubmit = {submitHandler}>
 
             <input type = "text"
                    name = "title"
@@ -114,7 +106,7 @@ function AddMovieForm(props){
                    onChange = {(event)=> changeArrayHandler(2, event)} 
                    placeholder = "actor" />                 
 
-            <button> Add </button>  
+            <button> Add Movie</button>  
                    
         </form>
 

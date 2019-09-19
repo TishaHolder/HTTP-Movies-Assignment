@@ -74,7 +74,7 @@ function UpdateMovieForm(props){
 
     return (
 
-        <form onSubmit = {submitHandler}>
+        <form className = "add-form" onSubmit = {submitHandler}>
 
             <input type = "text"
                    name = "title"

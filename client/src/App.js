@@ -14,9 +14,9 @@ const App = () => {
     setSavedList([...savedList, movie]);
   };
 
-  const updateMovieList = movie => {
+  /*const updateMovieList = movie => {
     setSavedList([...savedList, movie]);
-  };
+  };*/
 
   return (
     <>
