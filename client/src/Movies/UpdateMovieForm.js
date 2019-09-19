@@ -7,7 +7,7 @@ function UpdateMovieForm(props){
     //was getting NON ITERABLE ERROR. this was caused by leaving off the useState keyword
     const [updatedMovie, setUpdatedMovie] = useState( {title: "", director: "", metascore: "", stars: [] } );
 
-    const fetchMovie = id => {
+    const getMovie = (id) => {
         axios
           .get(`http://localhost:5000/api/movies/${id}`)
           .then(res => setUpdatedMovie(res.data))
@@ -16,7 +16,7 @@ function UpdateMovieForm(props){
 
       useEffect( () => {
 
-          fetchMovie(props.match.params.id);
+          getMovie(props.match.params.id);
 
       }, [props.match.params.id]);
 
