@@ -4,7 +4,8 @@ import axios from "axios";
 
 function AddMovieForm(props){
 
-    const [newMovie, setNewMovie] = useState( {title: "", director: "", metascore: "", stars: ["val", "val", "val"] } );
+    
+    const [newMovie, setNewMovie] = useState( {title: "", director: "", metascore: "", stars: [ ] } );
 
     const changeHandler = (event) => {
 
@@ -45,8 +46,6 @@ function AddMovieForm(props){
         });
 
     };
-    
-
     const submitHandler = (event) => {
 
         event.preventDefault();
@@ -88,34 +87,34 @@ function AddMovieForm(props){
 
             <h2> Actors </h2>
 
-            { newMovie.stars.map( (star, index) => {
+            {/*{ newMovie.stars.map( (star, index) => {
                 return <input  type = "text"                               
                 value = {star}
                 onChange = {(event)=> changeArrayHandler(index, event)} 
                 placeholder = "actor" /> 
             }
             
-            )}
+            )}*/}
 
-            {/*<input type = "text"
-                   name = "stars[0]"
+            <input type = "text"
+                   name = "stars"
                    value = {newMovie.stars[0]}
-                   onChange = {changeHandler} 
+                   onChange = {(event)=> changeArrayHandler(0, event)} 
                    placeholder = "actor" />
 
             <input type = "text"
-                   name = "stars[1]"
+                   name = "stars"
                    value = {newMovie.stars[1]}
-                   onChange = {changeHandler} 
+                   onChange = {(event)=> changeArrayHandler(1, event)} 
                    placeholder = "actor" />
 
             <input type = "text"
-                   name = "stars[2]"
+                   name = "stars"
                    value = {newMovie.stars[2]}
-                   onChange = {changeHandler} 
-                   placeholder = "actor" /> 
+                   onChange = {(event)=> changeArrayHandler(2, event)} 
+                   placeholder = "actor" />                 
 
-            <button> Add </button>  */}        
+            <button> Add </button>  
                    
         </form>
 

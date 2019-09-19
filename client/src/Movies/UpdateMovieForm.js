@@ -4,6 +4,7 @@ import axios from "axios";
 
 function UpdateMovieForm(props){
 
+    //was getting NON ITERABLE ERROR. this was caused by leaving off the useState keyword
     const [updatedMovie, setUpdatedMovie] = useState( {title: "", director: "", metascore: "", stars: [] } );
 
     const fetchMovie = id => {
